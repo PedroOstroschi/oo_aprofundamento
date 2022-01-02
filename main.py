@@ -1,58 +1,76 @@
-class Filme:
-    def __init__(self, nome, ano, duracao):
-        self.__nome = nome
-        self.__ano = ano
-        self.__duracao = duracao
-        self.__like = 0
+class Conteudo_Video:
+    def __init__(self, nome, ano):
+        self._nome = nome
+        self._ano = ano
+        self._like = 0
 
     @property
     def nome(self):
-        return self.__nome.title()
+        return self._nome.title()
 
     @property
     def ano(self):
-        return self.__ano
+        return self._ano
+
+    @property
+    def like(self):
+        return self._like
+
+    def dar_like(self):
+        self._like =+1
+
+    def __str__(self):
+        return (f'{self.nome} - {self.ano} - {self.like}')
+
+
+
+
+class Filme(Conteudo_Video):
+    def __init__(self, nome, ano, duracao):
+        super().__init__(nome, ano)
+        self._duracao = duracao
+
 
     @property
     def duracao(self):
-        return self.__duracao
+        return self._duracao
 
-    @property
-    def like(self):
-        return self.__like
+    def __str__(self):
+        return (f'{self.nome} - {self.ano} - {self.duracao} minutos - {self.like}')
 
-    def dar_like(self):
-        self.__like =+1
 
-class Serie:
+class Serie(Conteudo_Video):
     def __init__(self, nome, ano, temporadas):
-        self.__nome = nome
-        self.__ano = ano
-        self.__temporadas = temporadas
-        self.__like = 0
-
-    @property
-    def nome(self):
-            return self.__nome.title()
-
-    @property
-    def ano(self):
-            return self.__ano
+        super().__init__(nome, ano)
+        self._temporadas = temporadas
 
     @property
     def temporadas(self):
-            return self.__temporadas
-
-    @property
-    def like(self):
-            return self.__like
+            return self._temporadas
 
     @temporadas.setter
     def temporadas(self, quantidade_atutal):
-        self.__temporadas = quantidade_atutal
+        self._temporadas = quantidade_atutal
 
-    def dar_like(self):
-        self.__like =+1
+    def __str__(self):
+        return f'{self.nome} - {self.ano} - {self.temporadas} temporadas - {self.like}'
+
+class Playlist:
+    def __init__(self, nome, programas):
+        self.nome = nome
+        self._programas = programas
+
+    def __getitem__(self, item):
+        return self._programas[item]
+
+    @property
+    def listagem(self):
+        return self._programas
+
+    @property
+    def tamanho(self):
+        return len(self._programas)
+
 
 
 
@@ -61,5 +79,12 @@ print(f'Nome: {vingadores.nome} - Ano:{vingadores.ano}'
           f'- Duração: {vingadores.duracao} - Likes: {vingadores.like}')
 
 atlanta = Serie('atlanta', 2018, 2)
+atlanta.dar_like()
 print(f'Nome: {atlanta.nome} - Ano: {atlanta.ano}'
       f'- Temporadas: {atlanta.temporadas} - Likes: {atlanta.like}')
+
+filme_e_serie = [vingadores, atlanta]
+fim_de_semana = Playlist('Fim de semana', filme_e_serie)
+
+for programas in fim_de_semana.listagem:
+    print(programas)
